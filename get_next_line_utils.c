@@ -6,51 +6,66 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/12 19:10:18 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/19 14:33:33 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-int	ft_strlen(char *buf)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	len;
 
-	i = 0;
-	while (buf[i] != '\n' && buf[i] != '\0')
+	len = 0;
+	//if (s[0] == '\0' )
+	//	return (len);
+	while (s[len])
 	{
-		i++;
+		len++;
 	}
-	return (i);
+	//printf("len = %zu\n", len);
+	return (len);
 }
 
-char	*get_line(char **buf)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*s;
-	int		c;
+	
+	char			*d;
+	unsigned int	size_d;
+	unsigned int	i;
+	unsigned int	j;
 
-	c = ft_strlen(*buf);
-
-	if (c == 0)
+	i = 0;
+	j = 0;
+	if (s1 == NULL)
 	{
-		return ("NULL");
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1 = "\0";
 	}
-	if (!(**buf))
-	{
-		free(*buf);
-		printf("%s\n", *buf);
-	}
-	s = (char *)malloc((c + 1) * sizeof(char));
-	c = 0;
+	
+	size_d = ft_strlen((char *)s1) + ft_strlen((char *)s2);
+	//printf("size_d = %i\n", size_d);
+	d = malloc((size_d + 1) * sizeof(char));
+	if (d == NULL)
+		return (NULL);
+	while (s1[i])
+		d[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		d[i++] = s2[j++];
+	d[i] = '\0';
+	return (d);
+}
 
-	while (**buf != '\n' && **buf != '\0')
-	{
-		s[c++] = **buf;
-		
-		(*buf)++;
-	}
-	s[c] = '\0';
-	(*buf)++;
-	printf("%s\n", *buf);
+char	*ft_strchr(const char *s, int c)
+{
+	char	*s1;
 
-	return (s);
+	s1 = (char *)s;
+	while (*s1 != (char )c)
+	{
+		if (*s1 == '\0')
+			return ((char *) NULL);
+		s1++;
+	}
+	return (s1);
 }
