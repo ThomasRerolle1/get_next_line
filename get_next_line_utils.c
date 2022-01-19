@@ -6,23 +6,18 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/19 14:33:33 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/19 18:22:25 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	len;
 
 	len = 0;
-	//if (s[0] == '\0' )
-	//	return (len);
 	while (s[len])
-	{
 		len++;
-	}
-	//printf("len = %zu\n", len);
 	return (len);
 }
 
@@ -42,8 +37,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		s1 = "\0";
 	}
 	
-	size_d = ft_strlen((char *)s1) + ft_strlen((char *)s2);
-	//printf("size_d = %i\n", size_d);
+	size_d = ft_strlen(s1) + ft_strlen(s2);
 	d = malloc((size_d + 1) * sizeof(char));
 	if (d == NULL)
 		return (NULL);
@@ -56,16 +50,35 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (d);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
-	char	*s1;
-
-	s1 = (char *)s;
-	while (*s1 != (char )c)
+	while (*s != (char )c)
 	{
-		if (*s1 == '\0')
-			return ((char *) NULL);
-		s1++;
+		if (*s == '\0')
+			return (NULL);
+		printf("%c\n", *s);
+		s++;
 	}
-	return (s1);
+	printf("str = %s\n", s);
+	return (s);
+}
+
+char	*ft_strdup(char *s1)
+{
+	int		count;
+	int		i;
+	char	*ptr;
+
+	i = 0;
+	count = ft_strlen(s1);
+	ptr = malloc((count + 1) * sizeof(*s1));
+	if (ptr == NULL)
+		return (ptr);
+	while (i < count)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
