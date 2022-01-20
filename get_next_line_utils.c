@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/19 18:22:25 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/20 11:25:05 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -56,10 +56,8 @@ char	*ft_strchr(char *s, int c)
 	{
 		if (*s == '\0')
 			return (NULL);
-		printf("%c\n", *s);
 		s++;
 	}
-	printf("str = %s\n", s);
 	return (s);
 }
 

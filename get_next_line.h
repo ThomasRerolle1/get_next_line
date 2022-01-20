@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 char	*get_line(char **buf);
+char	*update_save(char **save);
 size_t	ft_strlen(char *s);
 char	*get_next_line(int fd);
 char	*ft_strchr(char *s, int c);

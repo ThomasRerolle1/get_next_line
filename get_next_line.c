@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:17:34 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/19 18:22:30 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/20 13:47:11 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,22 @@ char	*get_line(char **save)
 		j++;
 	}
 	line[j] = '\0';
+	update_save(save);
 	return (line);
 }
+
 char	*update_save(char **save)
 {
-	char	*tmp_save;
+	//char	*tmp_save;
 
-	tmp_save = ft_strdup(ft_strchr(*save, '\n'));
-	if (!tmp_save)
-		tmp_save = ft_strdup(ft_strchr(*save, '\0'));
-
-	printf("tmp_save = %s\n", tmp_save);
-	free(*save);
-	*save = tmp_save;
-	free(tmp_save);
+	//printf("save = %s\n", save);
+	*save = ft_strchr(*save, '\n');
+	if (!(*save))
+	{
+		
+		*save = ft_strchr(*save, '\0');
+	}
+	//printf("tmp_save = %s\n", tmp_save);
 	return (*save);
 }
 
@@ -74,41 +76,64 @@ char	*get_next_line(int fd)
 		buffer[rd_bytes] = '\0';
 		save = ft_strjoin(save, buffer);
 	}
-	return (save);
+	
+	return (get_line(&save));
 }
 
 int	main()
 {
-	/*
+	
 	int	fd = open("test.txt", O_RDWR | O_CREAT, 0777);
+	//int	fd1 = open("test1.txt", O_RDWR | O_CREAT, 0777);
+//	char	*file = get_next_line(fd);
+	//char	*file1 = get_next_line(fd);
+
+	printf("\n====================TEST_GET_NEXT_LINE=====================================\n");
+	printf("%s", get_next_line(fd));
+	printf("\n=========================================================\n");
+	printf("%s", get_next_line(fd));
+	printf("\n=========================================================\n");
+	printf("%s", get_next_line(fd));
+/*	printf("\n=========================================================\n");
+	printf("%s", get_next_line(fd));
+	printf("\n=========================================================\n");
+	printf("%s", get_next_line(fd));
+	printf("\n=========================================================\n");
+	printf("%s", get_next_line(fd));
+	printf("\n=========================================================\n");
+	printf("%s", get_next_line(fd));
 
 	
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-
-	close(fd);
-	*/
 	
 	printf("\n===========================TEST_GET_LINE==============================\n");
 	char *str = NULL;
 	char	*line = get_line(&str);
-	printf("%s\n", line);
+	printf("%s", line);
+	printf("\n=========================================================\n");
+	char	*str1 = "Hollq \n\n\n\n\n get my line\0";
+	char	*line1 = get_line(&str1);
+	printf("%s", line1);
+	printf("\n=========================================================\n");
+	char	*line2 = get_line(&file);
+	printf("%s", line2);
+	printf("\n=========================================================\n");
+	char	*str3 = "";
+	char	*line3 = get_line(&str3);
+	printf("%s", line3);
+	printf("\n=========================================================\n");
+	
+	
+	
+	
+	
+	
 	printf("\n===========================TEST_UPDATE_SAVE==============================\n");
-	char *s2 = "Hollaii";
-	char	*save = update_save(&s2);
-	printf("strchr = %s\n", ft_strchr(save, '\n'));
+	printf("%s\n", file1);
+	char	*save = update_save("");
 	printf("%s\n", save);
 
+	printf("\n=========================================================\n");
+*/
+	close(fd);
 	return (0);
 }
