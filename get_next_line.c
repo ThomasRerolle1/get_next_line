@@ -6,52 +6,39 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:17:34 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/20 13:47:11 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:53:37 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char **save)
+char	*get_line(char *save)
 {
 	char	*line;
-	int		i;
-	int		j;
 
-	i = 0;
-	if (*save == NULL)
+	if (save == NULL)
 		return (NULL);
-	while ((*save)[i] != '\n' && (*save)[i] != '\0')
-	{
-		i++;
-	}
-	//printf("%i\n", i);
-	line = (char *)malloc((i + 1) * sizeof(char));
-	j = 0;
-	while (j < i)
-	{
-		//printf("j = %i\n", j);
-		line[j] = (*save)[j];
-		j++;
-	}
-	line[j] = '\0';
-	update_save(save);
+	if (IndexOf(save, '\n') < 0)
+		return (save);
+	line = ft_strndup(save, 0, (size_t)IndexOf(save, '\n')); 
 	return (line);
 }
 
-char	*update_save(char **save)
+void	update_save(char **save)
 {
-	//char	*tmp_save;
+	char	*new_save;
 
-	//printf("save = %s\n", save);
-	*save = ft_strchr(*save, '\n');
-	if (!(*save))
+	if (!(*save) || !save)
+		return ;
+	if (!(IndexOf(*save, '\n')))
 	{
-		
-		*save = ft_strchr(*save, '\0');
+		free(*save);
+		*save = NULL;
+		return ;
 	}
-	//printf("tmp_save = %s\n", tmp_save);
-	return (*save);
+	new_save = ft_strndup(*save, (size_t)(IndexOf(*save, '\n') + 1), ft_strlen(*save));
+	free(*save);
+	*save = new_save;
 }
 
 
@@ -59,34 +46,35 @@ char	*update_save(char **save)
 char	*get_next_line(int fd)
 {
 	static char	*save;
-	char		*buffer;
+	char		buffer[BUFFER_SIZE + 1];
 	int			rd_bytes;
+	char		*line;
 
 	if (fd <= 0 || fd > 4095 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
+	//buffer[0] = '\0';
 	rd_bytes = 1;
 	while (!ft_strchr(buffer, '\n') && 0 < rd_bytes)
 	{
 		rd_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (rd_bytes == -1)
+		printf("%s", buffer);
+		if (rd_bytes -1)
 			return (NULL);
-		buffer[rd_bytes] = '\0';
+		buffer[rd_bytes] = 0;
 		save = ft_strjoin(save, buffer);
 	}
-	
-	return (get_line(&save));
+
+	printf("%s", buffer);
+	printf("%s", save);
+	line = get_line(save);
+	update_save(&save);
+	return (line);
 }
 
 int	main()
 {
 	
 	int	fd = open("test.txt", O_RDWR | O_CREAT, 0777);
-	//int	fd1 = open("test1.txt", O_RDWR | O_CREAT, 0777);
-//	char	*file = get_next_line(fd);
-	//char	*file1 = get_next_line(fd);
 
 	printf("\n====================TEST_GET_NEXT_LINE=====================================\n");
 	printf("%s", get_next_line(fd));
@@ -94,33 +82,37 @@ int	main()
 	printf("%s", get_next_line(fd));
 	printf("\n=========================================================\n");
 	printf("%s", get_next_line(fd));
-/*	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
 	printf("\n=========================================================\n");
 	printf("%s", get_next_line(fd));
 	printf("\n=========================================================\n");
 	printf("%s", get_next_line(fd));
 	printf("\n=========================================================\n");
 	printf("%s", get_next_line(fd));
+	printf("\n=========================================================\n");
+	printf("%s\n\n", get_next_line(fd));
+
+	close(fd);
+
+	fd = open("test.txt", O_RDWR | O_CREAT, 0777);
+	int	fd1 = open("test1.txt", O_RDWR | O_CREAT, 0777);
+	char	*file = get_next_line(fd);
+	char	*file1 = get_next_line(fd);
 
 	
-	
 	printf("\n===========================TEST_GET_LINE==============================\n");
-	char *str = NULL;
-	char	*line = get_line(&str);
+	char	*line = get_line(NULL);
 	printf("%s", line);
 	printf("\n=========================================================\n");
 	char	*str1 = "Hollq \n\n\n\n\n get my line\0";
-	char	*line1 = get_line(&str1);
+	char	*line1 = get_line(str1);
 	printf("%s", line1);
 	printf("\n=========================================================\n");
-	char	*line2 = get_line(&file);
+	char	*line2 = get_line(file);
 	printf("%s", line2);
 	printf("\n=========================================================\n");
 	char	*str3 = "";
-	char	*line3 = get_line(&str3);
-	printf("%s", line3);
-	printf("\n=========================================================\n");
+	char	*line3 = get_line(str3);
+	printf("%s\n\n", line3);
 	
 	
 	
@@ -129,11 +121,12 @@ int	main()
 	
 	printf("\n===========================TEST_UPDATE_SAVE==============================\n");
 	printf("%s\n", file1);
-	char	*save = update_save("");
-	printf("%s\n", save);
+	update_save(&file1);
+	printf("%s\n", file1);
 
 	printf("\n=========================================================\n");
-*/
+
 	close(fd);
 	return (0);
 }
+

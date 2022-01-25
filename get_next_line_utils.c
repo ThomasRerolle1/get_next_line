@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/20 11:25:05 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:38:23 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -50,33 +50,47 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (d);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	while (*s != (char )c)
+
+	while ((char)*s != (char )c)
 	{
-		if (*s == '\0')
+		if ((char)*s == '\0')
 			return (NULL);
 		s++;
 	}
-	return (s);
+	return ((char *)s);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strndup(char *save, size_t start, size_t end)
 {
-	int		count;
+	char	*dst;
 	int		i;
-	char	*ptr;
 
 	i = 0;
-	count = ft_strlen(s1);
-	ptr = malloc((count + 1) * sizeof(*s1));
-	if (ptr == NULL)
-		return (ptr);
-	while (i < count)
-	{
-		ptr[i] = s1[i];
+	if (end < start || start < 0 || end > ft_strlen(save))
+		return (NULL);
+	dst = (char *)malloc((end - start + 2) * sizeof(char));
+	if (!dst)
+		return (NULL);
+	while (start <= end)
+		dst[i++] = save[start++];
+	dst[i] = '\0';
+	return (dst);
+}
+
+int	IndexOf(char *s1, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!s1)
+		return (-2);
+	if (c == '\0')
+		return ((int)ft_strlen(s1));
+	while (s1[i] != c && s1[i] != '\0')
 		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	if (s1[i] != c)
+		return (-1);
+	return (i);
 }
