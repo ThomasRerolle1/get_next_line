@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/25 13:38:23 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:50:38 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -16,6 +16,8 @@ size_t	ft_strlen(char *s)
 	size_t	len;
 
 	len = 0;
+	if (s == NULL)
+		return (len);
 	while (s[len])
 		len++;
 	return (len);
@@ -31,34 +33,33 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (s1 == NULL)
-	{
-		s1 = (char *)malloc(1 * sizeof(char));
-		s1 = "\0";
-	}
-	
+
 	size_d = ft_strlen(s1) + ft_strlen(s2);
 	d = malloc((size_d + 1) * sizeof(char));
 	if (d == NULL)
 		return (NULL);
-	while (s1[i])
-		d[i++] = s1[j++];
+	if (s1)
+		while (s1[i])
+			d[i++] = s1[j++];
 	j = 0;
-	while (s2[j])
-		d[i++] = s2[j++];
+	if (s2)
+		while (s2[j])
+			d[i++] = s2[j++];
 	d[i] = '\0';
+	free(s1);
 	return (d);
 }
 
 char	*ft_strchr(const char *s, int c)
 {
 
-	while ((char)*s != (char )c)
-	{
-		if ((char)*s == '\0')
-			return (NULL);
-		s++;
-	}
+	if (s)
+		while ((char)*s != (char )c)
+		{
+			if ((char)*s == '\0')
+				return (NULL);
+			s++;
+		}
 	return ((char *)s);
 }
 
@@ -75,7 +76,7 @@ char	*ft_strndup(char *save, size_t start, size_t end)
 		return (NULL);
 	while (start <= end)
 		dst[i++] = save[start++];
-	dst[i] = '\0';
+	dst[i] = '\0';	
 	return (dst);
 }
 
