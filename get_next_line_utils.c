@@ -6,14 +6,14 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/01/27 18:50:38 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:56:55 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	if (s == NULL)
@@ -26,14 +26,13 @@ size_t	ft_strlen(char *s)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	
-	char			*d;
-	unsigned int	size_d;
-	unsigned int	i;
-	unsigned int	j;
+	char	*d;
+	int		size_d;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-
 	size_d = ft_strlen(s1) + ft_strlen(s2);
 	d = malloc((size_d + 1) * sizeof(char));
 	if (d == NULL)
@@ -50,20 +49,21 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (d);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	hasLine(char *s)
 {
+	int	i;
 
-	if (s)
-		while ((char)*s != (char )c)
-		{
-			if ((char)*s == '\0')
-				return (NULL);
-			s++;
-		}
-	return ((char *)s);
+	i = 0;
+	if (s != NULL)
+	{
+		while (s[i++])
+			if (s[i] == '\n')
+				return (1);
+	}
+	return (0);
 }
 
-char	*ft_strndup(char *save, size_t start, size_t end)
+char	*ft_strndup(char *save, int start, int end)
 {
 	char	*dst;
 	int		i;
@@ -80,18 +80,3 @@ char	*ft_strndup(char *save, size_t start, size_t end)
 	return (dst);
 }
 
-int	IndexOf(char *s1, char c)
-{
-	int	i;
-
-	i = 0;
-	if (!s1)
-		return (-2);
-	if (c == '\0')
-		return ((int)ft_strlen(s1));
-	while (s1[i] != c && s1[i] != '\0')
-		i++;
-	if (s1[i] != c)
-		return (-1);
-	return (i);
-}
