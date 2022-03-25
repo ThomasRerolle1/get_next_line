@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/03/25 18:57:53 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/25 19:49:15 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -34,6 +34,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	size_d = ft_strlen(s1) + ft_strlen(s2);
+//	printf("size_d=%d\n", size_d);
 	d = malloc((size_d + 1) * sizeof(char));
 	if (d == NULL)
 		return (NULL);
@@ -56,10 +57,14 @@ int	hasLine(char *s)
 	i = 0;
 	if (s != NULL)
 	{
-		while (s[i++])
+		while (s[i])
+		{
 			if (s[i] == '\n')
 				return (1);
+			i++;
+		}
 	}
+
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:17:34 by trerolle          #+#    #+#             */
-/*   Updated: 2022/03/25 19:04:18 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/25 20:03:51 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*get_line(char **save)
 	int		i;
 
 	i = 0;
-	
-
 	if (save == NULL || *(save) == NULL)
 		return (NULL);
 	while ((*save)[i] != '\n' && (*save)[i] != '\0')
@@ -28,13 +26,11 @@ char	*get_line(char **save)
 	line = ft_strndup(*save, 0, i);
 	if (hasLine(*save) == 0)
 	{
-		printf("save=%s\n", *save);
 		tmp = NULL;
 	}
 	else
-			tmp = ft_strndup(*save, i + 1, ft_strlen(*save));
+		tmp = ft_strndup(*save, i + 1, ft_strlen(*save));
 
-	//printf("save=%p\n", save);
 	free(*save);
 	*save = tmp;
 	//printf("line=%s\n", line);
@@ -52,8 +48,11 @@ char	*get_next_line(int fd)
 	if (save && hasLine(save) == 1)
 		return (get_line(&save));
 	n = read(fd, buffer, BUFFER_SIZE);
-	if (n < 0)
+	if (n <= 0)
+	{
+		free(save);
 		return (NULL);
+	}
 	buffer[n] = '\0';
 	while (n > 0 && n <= BUFFER_SIZE)
 	{
@@ -62,7 +61,7 @@ char	*get_next_line(int fd)
 			break;
 		n = read(fd, buffer, BUFFER_SIZE);
 		buffer[n] = 0;
-		//printf("'%s'\n", save);
+//		printf("save='%s'\n", save);
 	}
 	//free(buffer);i
 	return (get_line(&save));
@@ -70,62 +69,9 @@ char	*get_next_line(int fd)
 
 int	main()
 {
-	
 	int	fd = open("test3.txt", O_RDWR | O_CREAT, 0777);
-
-	printf("%i\n", fd);
-	printf("\n====================TEST_GET_NEXT_LINE=====================================\n");
-	printf("'%s'", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("start%send", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("'%s'", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("'%s'", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-	printf("\n=========================================================\n");
-	printf("%s", get_next_line(fd));
-
-	close(fd);
-
-	fd = open("test.txt", O_RDWR | O_CREAT, 0777);
-	//int	fd1 = open("test1.txt", O_RDWR | O_CREAT, 0777);
-	char	*file = get_next_line(fd);
 	
-	printf("\n===========================TEST_GET_LINE==============================\n");
-
-	char	*line = get_line(NULL);
-	printf("%s", line);
-	printf("\n=========================================================\n");
-	char	*str1 = ft_strndup("Hollq \n\n\n\n\n get my line\0", 0, 20);
-	char	*line1 = get_line(&str1);
-	printf("%s", line1);
-	printf("\n=========================================================\n");
-	fflush(stdout);
-	char	*line2 = get_line(&file);
-	printf("%s", line2);
-	printf("\n=========================================================\n");
-	char	*str3 = ft_strndup("", 0, 0);
-	char	*line3 = get_line(&str3);
-	printf("%s\n\n", line3);
-	
-	
-	close(fd);	
-	return (0);	
-	
-	
-
+	char	*line;
+	while ((line = get_next_line(fd)))
+		printf("line = '%s'\n", line);
 }
