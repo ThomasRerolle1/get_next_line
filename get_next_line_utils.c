@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/03/28 13:32:54 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:46:00 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -24,7 +24,6 @@ int	ft_strlen(char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	
 	char	*d;
 	int		size_d;
 	int		i;
@@ -33,7 +32,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	size_d = ft_strlen(s1) + ft_strlen(s2);
-//	printf("size_d=%d\n", size_d);
 	d = malloc((size_d + 1) * sizeof(char));
 	if (d == NULL)
 		return (NULL);
@@ -49,7 +47,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (d);
 }
 
-int	hasLine(char *s)
+int	has_line(char *s)
 {
 	int	i;
 
@@ -57,13 +55,9 @@ int	hasLine(char *s)
 	if (s != NULL)
 	{
 		while (s[i])
-		{
-			if (s[i] == '\n')
+			if (s[i++] == '\n')
 				return (1);
-			i++;
-		}
 	}
-
 	return (0);
 }
 
@@ -82,7 +76,6 @@ char	*ft_strndup(char *save, int start, int end)
 		return (NULL);
 	while (start <= end)
 		dst[i++] = save[start++];
-	dst[i] = '\0';	
+	dst[i] = '\0';
 	return (dst);
 }
-

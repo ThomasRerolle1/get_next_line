@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:17:34 by trerolle          #+#    #+#             */
-/*   Updated: 2022/03/28 13:35:03 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:49:39 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,12 @@ char	*get_line(char **save)
 	while ((*save)[i] != '\n' && (*save)[i] != '\0')
 		i++;
 	line = ft_strndup(*save, 0, i);
-	if (hasLine(*save) == 0)
-	{
+	if (has_line(*save) == 0)
 		tmp = NULL;
-	}
 	else
 		tmp = ft_strndup(*save, i + 1, ft_strlen(*save));
-
 	free(*save);
 	*save = tmp;
-
-	//printf("line=%s\n", line);
 	return (line);
 }
 
@@ -46,7 +41,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd > 4095 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (save && hasLine(save) == 1)
+	if (save && has_line(save) == 1)
 		return (get_line(&save));
 	n = read(fd, buffer, BUFFER_SIZE);
 	if (n < 0)
@@ -58,13 +53,11 @@ char	*get_next_line(int fd)
 	while (n > 0)
 	{
 		save = ft_strjoin(save, buffer);
-		if (hasLine(save) == 1)
-			break;
+		if (has_line(save) == 1)
+			break ;
 		n = read(fd, buffer, BUFFER_SIZE);
 		buffer[n] = 0;
-//		printf("save='%s'\n", save);
 	}
-	//free(buffer);i
 	return (get_line(&save));
 }
 /*
