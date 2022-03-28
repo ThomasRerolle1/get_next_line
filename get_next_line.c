@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:17:34 by trerolle          #+#    #+#             */
-/*   Updated: 2022/03/25 20:03:51 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:35:03 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*get_line(char **save)
 
 	free(*save);
 	*save = tmp;
+
 	//printf("line=%s\n", line);
 	return (line);
 }
@@ -43,18 +44,18 @@ char	*get_next_line(int fd)
 	char		buffer[BUFFER_SIZE + 1];
 	int			n;
 
-	if (fd <= 0 || fd > 4095 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 4095 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (save && hasLine(save) == 1)
 		return (get_line(&save));
 	n = read(fd, buffer, BUFFER_SIZE);
-	if (n <= 0)
+	if (n < 0)
 	{
 		free(save);
 		return (NULL);
 	}
 	buffer[n] = '\0';
-	while (n > 0 && n <= BUFFER_SIZE)
+	while (n > 0)
 	{
 		save = ft_strjoin(save, buffer);
 		if (hasLine(save) == 1)
@@ -66,7 +67,7 @@ char	*get_next_line(int fd)
 	//free(buffer);i
 	return (get_line(&save));
 }
-
+/*
 int	main()
 {
 	int	fd = open("test3.txt", O_RDWR | O_CREAT, 0777);
@@ -74,4 +75,5 @@ int	main()
 	char	*line;
 	while ((line = get_next_line(fd)))
 		printf("line = '%s'\n", line);
-}
+	printf("line = '%s'\n", line);
+}*/

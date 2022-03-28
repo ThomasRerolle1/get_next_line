@@ -6,7 +6,7 @@
 /*   By: trerolle <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:13:16 by trerolle          #+#    #+#             */
-/*   Updated: 2022/03/25 19:49:15 by trerolle         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:32:54 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -16,10 +16,9 @@ int	ft_strlen(char *s)
 	int	len;
 
 	len = 0;
-	if (!s || s == NULL)
-		return (len);
-	while (s[len] != '\0')
-		len++;
+	if (s)
+		while (s[len] != '\0')
+			len++;
 	return (len);
 }
 
@@ -74,7 +73,7 @@ char	*ft_strndup(char *save, int start, int end)
 	int		i;
 
 	i = 0;
-	if (end < start || start < 0)
+	if (end < start || start < 0 || ft_strlen(save) <= start)
 		return (NULL);
 	if (end > ft_strlen(save))
 		end = ft_strlen(save) - 1;
